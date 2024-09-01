@@ -30,6 +30,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    //new gradle added by istiaq
+    buildFeatures{
+        viewBinding true
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
