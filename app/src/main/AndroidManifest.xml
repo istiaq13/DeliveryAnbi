@@ -13,10 +13,21 @@
         android:theme="@style/Theme.DPProject"
         tools:targetApi="31">
         <activity
-            android:name=".DashboardActivity"
+            android:name=".Activity.DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.SignupActivity"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:exported="false">
+
+        </activity>
+
+        <activity
+            android:name=".Activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,12 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity.LoginActivity"
-            android:exported="false"></activity>
-        <activity
-            android:name=".Activity.IntroActivity"
-            android:exported="true"></activity>
     </application>
 
 </manifest>
