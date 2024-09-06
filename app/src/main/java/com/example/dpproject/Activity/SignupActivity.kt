@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dpproject.R
+import com.example.dpproject.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -21,6 +22,12 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var username: String
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
+
+    // Declare UI elements without initializing them
+    private lateinit var signUpButton: Button
+    private lateinit var nameEditText: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +41,11 @@ class SignupActivity : AppCompatActivity() {
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
-        // Access UI elements after setting content view
-        val signUpButton = findViewById<Button>(R.id.signup_button)
-        val nameEditText = findViewById<EditText>(R.id.nameBox)
-        val emailEditText = findViewById<EditText>(R.id.emailBox)
-        val passwordEditText = findViewById<EditText>(R.id.passwordBox)
+        // Now initialize UI elements after setting the content view
+        signUpButton = findViewById(R.id.signup_button)
+        nameEditText = findViewById(R.id.nameBox)
+        emailEditText = findViewById(R.id.emailBox)
+        passwordEditText = findViewById(R.id.passwordBox)
 
         signUpButton.setOnClickListener {
             username = nameEditText.text.toString().trim()
@@ -64,6 +71,7 @@ class SignupActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show()
+                saveUserData()
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
             } else {
@@ -71,5 +79,14 @@ class SignupActivity : AppCompatActivity() {
                 Log.d("Account", "createAccount: Failure", task.exception)
             }
         }
+    }
+
+    private fun saveUserData() {
+        username = nameEditText.text.toString().trim()
+        password = passwordEditText.text.toString().trim()
+        email = emailEditText.text.toString().trim()
+        val user = UserModel(username, email, password)
+        val userID = FirebaseAuth.getInstance().currentUser!!.uid
+        database.child("user").child(userID).setValue(user)
     }
 }
