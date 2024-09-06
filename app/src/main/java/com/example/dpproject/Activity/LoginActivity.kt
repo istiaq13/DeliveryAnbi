@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dpproject.R
 import com.google.firebase.auth.FirebaseAuth
@@ -40,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             val password = passwordText.text.toString().trim()
 
             if (email.isBlank() || password.isBlank()) {
-                Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                showErrorDialog("Please fill all the fields")
             } else {
                 // Call login function with email and password
                 loginUser(email, password)
@@ -63,10 +64,24 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
                 finish() // Close the login activity
+                Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
             } else {
-                // Login failed, show error message
-                Toast.makeText(this, "Login Failed. Check your email or password.", Toast.LENGTH_SHORT).show()
+                // Login failed, show error popup dialog
+                showErrorDialog("Login Failed. Check your email or password.")
             }
         }
+    }
+
+    // Function to show an error popup dialog
+    private fun showErrorDialog(message: String) {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val alert = dialogBuilder.create()
+        alert.setTitle("Error")
+        alert.show()
     }
 }
