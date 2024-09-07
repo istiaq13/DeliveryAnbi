@@ -67,7 +67,10 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                showOptionsPopup()
+                // Redirect to DashboardActivity after successful login
+                val intent = Intent(this, DashboardActivity::class.java)
+                startActivity(intent)
+                finish() // Optionally, close the LoginActivity
             } else {
                 showToast("Login Failed. Check your email or password.")
             }
@@ -89,14 +92,14 @@ class LoginActivity : AppCompatActivity() {
         alertDialog.window?.setDimAmount(0.8f) // Adjust the dim amount to make background darker
 
         dialogView.findViewById<Button>(R.id.option_make_order).setOnClickListener {
-            // Redirect to AdminActivity
+            // Redirect to makeOrderActivity
             val intent = Intent(this, makeOrderActivity::class.java)
             startActivity(intent)
             alertDialog.dismiss()
         }
 
         dialogView.findViewById<Button>(R.id.option_search_order).setOnClickListener {
-            // Redirect to UserActivity
+            // Redirect to searchOrderActivity
             val intent = Intent(this, searchOrderActivity::class.java)
             startActivity(intent)
             alertDialog.dismiss()
