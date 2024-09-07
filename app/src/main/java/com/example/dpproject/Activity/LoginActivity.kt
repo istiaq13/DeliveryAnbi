@@ -2,7 +2,9 @@ package com.example.dpproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -17,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var emailText: EditText
     private lateinit var passwordText: EditText
+    private lateinit var showPasswordCheckBox: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +29,19 @@ class LoginActivity : AppCompatActivity() {
 
         emailText = findViewById(R.id.emailBox)
         passwordText = findViewById(R.id.passwordBox)
+        showPasswordCheckBox = findViewById(R.id.showPasswordCheckBox)
         val loginButton = findViewById<Button>(R.id.login_button)
+
+        // Show/hide password functionality
+        showPasswordCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                passwordText.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else {
+                passwordText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+            // Move cursor to the end of the text
+            passwordText.setSelection(passwordText.text.length)
+        }
 
         loginButton.setOnClickListener {
             val email = emailText.text.toString().trim()
@@ -35,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
             if (!NetworkUtils.isNetworkConnected(this)) {
                 showErrorDialog("Please check your internet connection and try again.")
             } else if (email.isBlank() || password.isBlank()) {
-                showErrorDialog("Please fill all the fields")
+                showToast("Please fill all the fields")
             } else {
                 loginUser(email, password)
             }
@@ -56,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                 finish()
                 Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
             } else {
-                showErrorDialog("Login Failed. Check your email or password.")
+                showToast("Login Failed. Check your email or password.")
             }
         }
     }
@@ -71,5 +86,9 @@ class LoginActivity : AppCompatActivity() {
         val alert = dialogBuilder.create()
         alert.setTitle("Error")
         alert.show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
