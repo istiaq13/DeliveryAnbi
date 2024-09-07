@@ -1,5 +1,6 @@
 package com.example.dpproject.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -73,27 +74,35 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     private fun showOptionsPopup() {
-        val options = arrayOf("I want to make an order", "Search for order")
+        val dialogView = layoutInflater.inflate(R.layout.dialog_options, null)
 
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Choose an option")
-        dialogBuilder.setItems(options) { _, which ->
-            when (which) {
-                0 -> {
-                    // Redirect to AdminActivity
-                    val intent = Intent(this, IntroActivity::class.java)
-                    startActivity(intent)
-                }
-                1 -> {
-                    // Redirect to UserActivity
-                    val intent = Intent(this, IntroActivity::class.java)
-                    startActivity(intent)
-                }
-            }
+            .setView(dialogView)
+            .setCancelable(true)
+
+        val alertDialog = dialogBuilder.create()
+
+        // Set background blur effect
+        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        alertDialog.window?.setDimAmount(0.8f) // Adjust the dim amount to make background darker
+
+        dialogView.findViewById<Button>(R.id.option_make_order).setOnClickListener {
+            // Redirect to AdminActivity
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+            alertDialog.dismiss()
         }
-        val alert = dialogBuilder.create()
-        alert.show()
+
+        dialogView.findViewById<Button>(R.id.option_search_order).setOnClickListener {
+            // Redirect to UserActivity
+            val intent = Intent(this, IntroActivity::class.java)
+            startActivity(intent)
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     private fun showErrorDialog(message: String) {
