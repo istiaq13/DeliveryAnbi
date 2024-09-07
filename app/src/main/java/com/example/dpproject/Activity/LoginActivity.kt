@@ -90,14 +90,14 @@ class LoginActivity : AppCompatActivity() {
 
         dialogView.findViewById<Button>(R.id.option_make_order).setOnClickListener {
             // Redirect to AdminActivity
-            val intent = Intent(this, IntroActivity::class.java)
+            val intent = Intent(this, makeOrderActivity::class.java)
             startActivity(intent)
             alertDialog.dismiss()
         }
 
         dialogView.findViewById<Button>(R.id.option_search_order).setOnClickListener {
             // Redirect to UserActivity
-            val intent = Intent(this, IntroActivity::class.java)
+            val intent = Intent(this, searchOrderActivity::class.java)
             startActivity(intent)
             alertDialog.dismiss()
         }
