@@ -1,6 +1,5 @@
 package com.example.dpproject.Activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -75,37 +74,6 @@ class LoginActivity : AppCompatActivity() {
                 showToast("Login Failed. Check your email or password.")
             }
         }
-    }
-
-    @SuppressLint("MissingInflatedId")
-    private fun showOptionsPopup() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_options, null)
-
-        val dialogBuilder = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setCancelable(true)
-
-        val alertDialog = dialogBuilder.create()
-
-        // Set background blur effect
-        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog.window?.setDimAmount(0.8f) // Adjust the dim amount to make background darker
-
-        dialogView.findViewById<Button>(R.id.option_make_order).setOnClickListener {
-            // Redirect to makeOrderActivity
-            val intent = Intent(this, makeOrderActivity::class.java)
-            startActivity(intent)
-            alertDialog.dismiss()
-        }
-
-        dialogView.findViewById<Button>(R.id.option_search_order).setOnClickListener {
-            // Redirect to searchOrderActivity
-            val intent = Intent(this, searchOrderActivity::class.java)
-            startActivity(intent)
-            alertDialog.dismiss()
-        }
-
-        alertDialog.show()
     }
 
     private fun showErrorDialog(message: String) {
