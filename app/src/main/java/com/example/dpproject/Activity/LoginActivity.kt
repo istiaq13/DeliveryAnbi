@@ -66,14 +66,34 @@ class LoginActivity : AppCompatActivity() {
     private fun loginUser(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val intent = Intent(this, DashboardActivity::class.java)
-                startActivity(intent)
-                finish()
-                Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show()
+                showOptionsPopup()
             } else {
                 showToast("Login Failed. Check your email or password.")
             }
         }
+    }
+
+    private fun showOptionsPopup() {
+        val options = arrayOf("I want to make an order", "Search for order")
+
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle("Choose an option")
+        dialogBuilder.setItems(options) { _, which ->
+            when (which) {
+                0 -> {
+                    // Redirect to AdminActivity
+                    val intent = Intent(this, IntroActivity::class.java)
+                    startActivity(intent)
+                }
+                1 -> {
+                    // Redirect to UserActivity
+                    val intent = Intent(this, IntroActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+        val alert = dialogBuilder.create()
+        alert.show()
     }
 
     private fun showErrorDialog(message: String) {
