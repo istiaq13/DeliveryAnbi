@@ -50,7 +50,7 @@ class IntroActivity : AppCompatActivity() {
                     val intent = Intent(this, DashboardActivity::class.java)
                     startActivity(intent)
                     finish() // Close IntroActivity so the user cannot return to it
-                }, 1500) // 3-second delay
+                }, 1500) // 1.5-second delay
             } else {
                 // No internet connection, show toast message
                 Toast.makeText(this, "No internet connection. Please connect to the internet.", Toast.LENGTH_LONG).show()
