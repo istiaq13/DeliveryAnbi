@@ -2,6 +2,7 @@ package com.example.dpproject.Activity
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -82,4 +83,5 @@ class IntroActivity : AppCompatActivity() {
             else -> false
         }
     }
+
 }
