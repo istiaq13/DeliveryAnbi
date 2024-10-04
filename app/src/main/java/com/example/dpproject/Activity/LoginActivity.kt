@@ -207,6 +207,30 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+//    login after authentication
+//private fun loginUser(email: String, password: String) {
+//    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+//        if (task.isSuccessful) {
+//            // Redirect to DashboardActivity after successful login
+//           val verification = auth.currentUser?.isEmailVerified
+//            if (verification==true){
+//
+//            val intent = Intent(this, DashboardActivity::class.java)
+//            startActivity(intent)
+//            finish() // Optionally, close the LoginActivity
+//        }
+//            else
+//            {
+//                showToast("Please verify your email")
+//            }
+//        }
+//
+//            else {
+//            showToast("Login Failed. Check your email or password.")
+//        }
+//    }
+//}
+
     private fun sendPasswordByEmail(email: String) {
         // Fetch password from Firestore (or your database)
         db.collection("users").document(email).get()
