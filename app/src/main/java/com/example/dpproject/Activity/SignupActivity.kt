@@ -61,24 +61,36 @@ class SignupActivity : AppCompatActivity() {
         }
     }
 
-
- //   account creation with authentication
-private fun createAccount(email: String, password: String) {
-    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-        if (task.isSuccessful) {
-            auth.currentUser?.sendEmailVerification()
-            Toast.makeText(this, "Please verify your Email", Toast.LENGTH_SHORT).show()
-            saveUserData()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        else {
-            Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_SHORT).show()
+    private fun createAccount(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show()
+                saveUserData()
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-}
+
+//    account creation with authentication
+//private fun createAccount(email: String, password: String) {
+//    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+//        if (task.isSuccessful) {
+//            auth.currentUser?.sendEmailVerification()
+//            Toast.makeText(this, "Please verify your Email", Toast.LENGTH_SHORT).show()
+//            saveUserData()
+//            val intent = Intent(this, LoginActivity::class.java)
+//            startActivity(intent)
+//        }
+//
+//
+//        else {
+//            Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//}
 
     private fun saveUserData() {
         username = nameEditText.text.toString().trim()

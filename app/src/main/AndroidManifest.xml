@@ -15,9 +15,6 @@
         android:theme="@style/Theme.DPProject"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.ForgotPassword"
-            android:exported="false" />
-        <activity
             android:name=".Activity.searchOrderActivity"
             android:exported="false" />
         <activity
