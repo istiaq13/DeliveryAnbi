@@ -97,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
 
 package com.example.dpproject.Activity
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -108,9 +107,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import com.example.dpproject.R
 import com.example.dpproject.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
@@ -124,28 +120,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var showPasswordCheckBox: CheckBox
     private lateinit var db: FirebaseFirestore
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        window.setDecorFitsSystemWindows(false)
-        // Step 2: Use WindowInsets to adjust the layout dynamically
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            // Get insets for system bars (status bar, navigation bar)
-            val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-            // Apply the necessary padding
-            view.updatePadding(
-                left = systemInsets.left,  // Adjust for any left insets
-                top = systemInsets.top,    // Adjust for status bar at the top
-                right = systemInsets.right, // Adjust for any right insets
-                bottom = systemInsets.bottom  // Adjust for navigation bar at the bottom
-            )
-
-            insets
-        }
-        //end
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()

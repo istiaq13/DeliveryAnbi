@@ -1,6 +1,5 @@
 package com.example.dpproject.Activity
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -14,7 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import com.example.dpproject.R
 import com.google.firebase.auth.FirebaseAuth
 
@@ -22,27 +20,11 @@ class IntroActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
-        window.setDecorFitsSystemWindows(false)
-        // Step 2: Use WindowInsets to adjust the layout dynamically
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
-            // Get insets for system bars (status bar, navigation bar)
-            val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            // Apply the necessary padding
-            view.updatePadding(
-                left = systemInsets.left,  // Adjust for any left insets
-                top = systemInsets.top,    // Adjust for status bar at the top
-                right = systemInsets.right, // Adjust for any right insets
-                bottom = systemInsets.bottom  // Adjust for navigation bar at the bottom
-            )
-
-            insets
-        }
-        //end        auth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         // Handle edge-to-edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
