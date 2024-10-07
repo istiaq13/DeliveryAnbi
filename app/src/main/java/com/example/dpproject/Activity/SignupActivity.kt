@@ -62,42 +62,43 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun createAccount(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show()
-                saveUserData()
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_SHORT).show()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Send email verification and notify user
+                    auth.currentUser?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                        if (verificationTask.isSuccessful) {
+                            Toast.makeText(this, "Please verify your email and log in", Toast.LENGTH_SHORT).show()
+                            saveUserData()
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this, "Error sending verification email: ${verificationTask.exception?.message}", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                } else {
+                    // Show specific error message for the failed signup
+                    Toast.makeText(this, "Sign up failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
             }
-        }
     }
-
-//    account creation with authentication
-//private fun createAccount(email: String, password: String) {
-//    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-//        if (task.isSuccessful) {
-//            auth.currentUser?.sendEmailVerification()
-//            Toast.makeText(this, "Please verify your Email", Toast.LENGTH_SHORT).show()
-//            saveUserData()
-//            val intent = Intent(this, LoginActivity::class.java)
-//            startActivity(intent)
-//        }
-//
-//
-//        else {
-//            Toast.makeText(this, "Account Creation Failed", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//}
 
     private fun saveUserData() {
         username = nameEditText.text.toString().trim()
-        password = passwordEditText.text.toString().trim()
         email = emailEditText.text.toString().trim()
+        password = passwordEditText.text.toString().trim()
+
         val user = UserModel(username, email, password)
         val userID = FirebaseAuth.getInstance().currentUser!!.uid
-        database.child("user").child(userID).setValue(user)
+
+        // Save user data in Firebase Realtime Database
+        database.child("users").child(userID).setValue(user)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "User data saved successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to save user data: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                }
+            }
     }
 }
