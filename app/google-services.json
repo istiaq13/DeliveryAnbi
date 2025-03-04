@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858411586849",
+    "project_id": "dp-project-c2647",
+    "storage_bucket": "dp-project-c2647.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858411586849:android:1491f0fae86b89429bda60",
+        "android_client_info": {
+          "package_name": "com.example.dpproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABYkwabpm6_FXvuY9E2x6sZigRdcTTrDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
