@@ -2,6 +2,7 @@ package com.example.dpproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -14,6 +15,7 @@ import com.example.dpproject.utils.NetworkUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.security.MessageDigest
 
 class SignupActivity : AppCompatActivity() {
 
@@ -32,8 +34,11 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
+        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().reference
+
+        // Initialize Firebase Realtime Database with your custom URL
+        database = FirebaseDatabase.getInstance("https://dp-project-c2647-default-rtdb.firebaseio.com/").reference
 
         signUpButton = findViewById(R.id.signup_button)
         nameEditText = findViewById(R.id.nameBox)
@@ -70,6 +75,7 @@ class SignupActivity : AppCompatActivity() {
                         if (verificationTask.isSuccessful) {
                             Toast.makeText(this, "Please verify your email and log in", Toast.LENGTH_SHORT).show()
                             saveUserData()
+                            initializeOrdersSegment()
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         } else {
@@ -88,17 +94,51 @@ class SignupActivity : AppCompatActivity() {
         email = emailEditText.text.toString().trim()
         password = passwordEditText.text.toString().trim()
 
-        val user = UserModel(username, email, password)
+        // Hash the password before saving
+        val hashedPassword = hashPassword(password)
+
+        // Create a UserModel object
+        val user = UserModel(username, email, hashedPassword)
         val userID = FirebaseAuth.getInstance().currentUser!!.uid
 
-        // Save user data in Firebase Realtime Database
+        // Save user data in Firebase Realtime Database under "users" segment
         database.child("users").child(userID).setValue(user)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "User data saved successfully", Toast.LENGTH_SHORT).show()
+                    Log.d("SignupActivity", "User data saved to Firebase Realtime Database")
                 } else {
                     Toast.makeText(this, "Failed to save user data: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Log.e("SignupActivity", "Failed to save user data: ${task.exception?.message}")
                 }
             }
+    }
+
+    private fun initializeOrdersSegment() {
+        val userID = FirebaseAuth.getInstance().currentUser!!.uid
+
+        // Initialize the "orders" segment for the user
+        val ordersRef = database.child("orders").child(userID)
+
+        // Create sub-sections for Generated Orders, Received Orders, and Cancelled Orders
+        ordersRef.child("Generated Orders").setValue(hashMapOf<String, Any>())
+        ordersRef.child("Received Orders").setValue(hashMapOf<String, Any>())
+        ordersRef.child("Cancelled Orders").setValue(hashMapOf<String, Any>())
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Orders segment initialized successfully", Toast.LENGTH_SHORT).show()
+                    Log.d("SignupActivity", "Orders segment initialized in Firebase Realtime Database")
+                } else {
+                    Toast.makeText(this, "Failed to initialize orders segment: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    Log.e("SignupActivity", "Failed to initialize orders segment: ${task.exception?.message}")
+                }
+            }
+    }
+
+    // Function to hash the password using SHA-256
+    private fun hashPassword(password: String): String {
+        val bytes = password.toByteArray()
+        val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
+        return digest.fold("") { str, it -> str + "%02x".format(it) }
     }
 }

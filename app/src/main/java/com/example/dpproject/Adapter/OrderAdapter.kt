@@ -1,4 +1,4 @@
-package com.example.dpproject.Adapter
+/*package com.example.dpproject.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -33,4 +33,4 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
         val totalPriceTextView: TextView = itemView.findViewById(R.id.totalPriceTextView)
         val statusTextView: TextView = itemView.findViewById(R.id.statusTextView)
     }
-}
+}*/

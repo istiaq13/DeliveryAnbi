@@ -1,4 +1,4 @@
-package com.example.dpproject.Adapter
+/*package com.example.dpproject.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -41,3 +41,4 @@ class BestFoodsAdapter(private val items: ArrayList<Foods>) : RecyclerView.Adapt
         val pic: ImageView = itemView.findViewById(R.id.pic)
     }
 }
+*/

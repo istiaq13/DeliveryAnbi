@@ -1,4 +1,4 @@
-package com.example.dpproject.Adapter
+/*package com.example.dpproject.Adapter
 
 import android.content.Context
 import android.view.View
@@ -21,4 +21,4 @@ class LocationAdapter(context: Context, private val locations: List<Location>) :
         view.text = locations[position].loc
         return view
     }
-}
+}*/
