@@ -1,4 +1,5 @@
-package com.example.yourapp
+package com.example.dpproject
+
 
 import android.app.Activity
 import android.content.Intent
