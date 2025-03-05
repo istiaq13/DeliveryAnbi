@@ -1,5 +1,7 @@
 package com.example.dpproject.domain
 
+import com.google.firebase.database.FirebaseDatabase
+
 class Order {
     var orderId: String = ""
     var foodName: String = ""
@@ -17,5 +19,13 @@ class Order {
         this.quantity = quantity
         this.totalPrice = totalPrice
         this.status = status
+    }
+
+    fun placeOrder() {
+        val database = FirebaseDatabase.getInstance()
+        val ordersRef = database.getReference("orders")
+        val newOrderRef = ordersRef.push()
+        this.orderId = newOrderRef.key ?: ""
+        newOrderRef.setValue(this)
     }
 }

@@ -2,6 +2,7 @@ package com.example.dpproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -63,6 +64,11 @@ class DashboardActivity : AppCompatActivity() {
                     //Toast.makeText(this@DashboardActivity, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+        val placeOrderButton: Button = findViewById(R.id.makeOrderButton)
+        placeOrderButton.setOnClickListener {
+            val intent = Intent(this, PlaceOrderActivity::class.java)
+            startActivity(intent)
         }
     }
 
