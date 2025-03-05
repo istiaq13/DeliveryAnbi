@@ -7,193 +7,193 @@
     android:background="@color/white"
     android:padding="16dp">
 
-  <!-- Close Button -->
-  <TextView
-      android:id="@+id/closeButton"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Close"
-      android:textColor="@color/pink"
-      android:textSize="16sp"
-      android:clickable="true"
-      android:focusable="true"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginEnd="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- Close Button -->
+    <TextView
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close"
+        android:textColor="@color/pink"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
 
-  <!-- User Profile Heading -->
-  <TextView
-      android:id="@+id/userProfileHeading"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="User Profile"
-      android:textSize="24sp"
-      android:textStyle="bold"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- User Profile Heading -->
+    <TextView
+        android:id="@+id/userProfileHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Profile"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
-  <!-- Profile Picture -->
-  <ImageView
-      android:id="@+id/profilePicture"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:src="@drawable/star"
-      android:scaleType="centerCrop"
-      android:clickable="true"
-      android:focusable="true"
-      app:layout_constraintTop_toBottomOf="@id/userProfileHeading"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginTop="16dp" />
+    <!-- Profile Picture -->
+    <ImageView
+        android:id="@+id/profilePicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/star"
+        android:scaleType="centerCrop"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/userProfileHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-  <!-- User Name -->
-  <TextView
-      android:id="@+id/userNameLabel"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Name:"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/profilePicture"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- User Name -->
+    <TextView
+        android:id="@+id/userNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/profilePicture"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
-  <EditText
-      android:id="@+id/userName"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginEnd="16dp"
-      android:enabled="false"
-      android:inputType="text"
-      app:layout_constraintTop_toBottomOf="@id/profilePicture"
-      app:layout_constraintStart_toEndOf="@id/userNameLabel"
-      app:layout_constraintEnd_toEndOf="parent" />
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:enabled="false"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/profilePicture"
+        app:layout_constraintStart_toEndOf="@id/userNameLabel"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-  <TextView
-      android:id="@+id/changeName"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Change"
-      android:textColor="@color/pink"
-      android:clickable="true"
-      android:focusable="true"
-      app:layout_constraintTop_toBottomOf="@id/userName"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginEnd="16dp"
-      android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/changeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change"
+        android:textColor="@color/pink"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp" />
 
-  <!-- Email -->
-  <TextView
-      android:id="@+id/emailLabel"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Email:"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/changeName"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- Email -->
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/changeName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
-  <EditText
-      android:id="@+id/email"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginEnd="16dp"
-      android:enabled="false"
-      android:inputType="textEmailAddress"
-      app:layout_constraintTop_toBottomOf="@id/changeName"
-      app:layout_constraintStart_toEndOf="@id/emailLabel"
-      app:layout_constraintEnd_toEndOf="parent" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:enabled="false"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/changeName"
+        app:layout_constraintStart_toEndOf="@id/emailLabel"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-  <!-- Password -->
-  <TextView
-      android:id="@+id/passwordLabel"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Password:"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/email"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- Password -->
+    <TextView
+        android:id="@+id/passwordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password:"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
-  <EditText
-      android:id="@+id/password"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="8dp"
-      android:layout_marginEnd="16dp"
-      android:enabled="false"
-      android:inputType="textPassword"
-      app:layout_constraintTop_toBottomOf="@id/email"
-      app:layout_constraintStart_toEndOf="@id/passwordLabel"
-      app:layout_constraintEnd_toEndOf="parent" />
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:enabled="false"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toEndOf="@id/passwordLabel"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-  <TextView
-      android:id="@+id/changePassword"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Change"
-      android:textColor="@color/pink"
-      android:clickable="true"
-      android:focusable="true"
-      app:layout_constraintTop_toBottomOf="@id/password"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginEnd="16dp"
-      android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/changePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change"
+        android:textColor="@color/pink"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp" />
 
-  <!-- Orders Count -->
-  <TextView
-      android:id="@+id/createdOrders"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Created Orders: 0"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/changePassword"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="16dp" />
+    <!-- Orders Count -->
+    <TextView
+        android:id="@+id/createdOrders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created Orders: 0"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/changePassword"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
-  <TextView
-      android:id="@+id/acceptedOrders"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Accepted Orders: 0"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/createdOrders"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/acceptedOrders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accepted Orders: 0"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/createdOrders"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
 
-  <TextView
-      android:id="@+id/cancelledOrders"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Cancelled Orders: 0"
-      android:textSize="16sp"
-      app:layout_constraintTop_toBottomOf="@id/acceptedOrders"
-      app:layout_constraintStart_toStartOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginTop="8dp" />
+    <TextView
+        android:id="@+id/cancelledOrders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancelled Orders: 0"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/acceptedOrders"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
 
-  <!-- Make Changes Button -->
-  <Button
-      android:id="@+id/makeChangesButton"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:text="Make Changes"
-      android:backgroundTint="@color/pink"
-      android:textColor="@color/white"
-      app:layout_constraintTop_toBottomOf="@id/cancelledOrders"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginStart="16dp"
-      android:layout_marginEnd="16dp"
-      android:layout_marginTop="24dp" />
+    <!-- Make Changes Button -->
+    <Button
+        android:id="@+id/makeChangesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Make Changes"
+        android:backgroundTint="@color/pink"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/cancelledOrders"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

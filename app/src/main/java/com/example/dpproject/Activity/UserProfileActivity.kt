@@ -12,10 +12,13 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.example.dpproject.R
 
 class UserProfileActivity : AppCompatActivity() {
 
@@ -35,7 +38,7 @@ class UserProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_profile)
 
         // Initialize Firebase
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
         database = FirebaseDatabase.getInstance("https://dp-project-c2647-default-rtdb.firebaseio.com/")
 
         // Initialize views
@@ -81,11 +84,15 @@ class UserProfileActivity : AppCompatActivity() {
         if (userId != null) {
             database.reference.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)
-                    if (user != null) {
-                        userName.setText(user.username)
-                        email.setText(user.email)
-                        password.setText(user.password)
+                    if (snapshot.exists()) {
+                        val user = snapshot.getValue(User::class.java)
+                        if (user != null) {
+                            userName.setText(user.username ?: "N/A")
+                            email.setText(user.email ?: "N/A")
+                            password.setText(user.password ?: "N/A")
+                        }
+                    } else {
+                        Toast.makeText(this@UserProfileActivity, "User data not found", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -93,6 +100,8 @@ class UserProfileActivity : AppCompatActivity() {
                     Toast.makeText(this@UserProfileActivity, "Failed to load user data", Toast.LENGTH_SHORT).show()
                 }
             })
+        } else {
+            Toast.makeText(this, "User ID is null", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -104,13 +113,21 @@ class UserProfileActivity : AppCompatActivity() {
 
             // Update name in Firebase Realtime Database
             database.reference.child("users").child(userId).child("username").setValue(newName)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Name updated successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to update name", Toast.LENGTH_SHORT).show()
+                }
 
             // Update password in Firebase Authentication
-            auth.currentUser?.updatePassword(newPassword)?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Failed to update password", Toast.LENGTH_SHORT).show()
+            if (newPassword.isNotEmpty()) {
+                auth.currentUser?.updatePassword(newPassword)?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Password updated successfully", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Failed to update password", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

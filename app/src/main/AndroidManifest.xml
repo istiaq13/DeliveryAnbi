@@ -15,6 +15,16 @@
         android:theme="@style/Theme.DPProject"
         tools:targetApi="31" >
         <activity
+            android:name=".Activity.UserProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Helper.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DPProject" />
+        <activity
             android:name=".UserProfileActivity"
             android:exported="false" />
         <activity
