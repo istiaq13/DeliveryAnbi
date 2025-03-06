@@ -6,30 +6,76 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Cancel Button (Top Right) -->
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:textSize="18sp"
+        android:layout_gravity="end"
+        android:backgroundTint="@android:color/darker_gray"
+        android:textColor="@android:color/white"/>
+
+    <!-- Item Name -->
     <EditText
         android:id="@+id/foodNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Food Name" />
+        android:hint="Item Name" />
 
+    <!-- Location Dropdown -->
+    <Spinner
+        android:id="@+id/locationSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
+
+    <!-- Quantity -->
     <EditText
         android:id="@+id/quantityEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Quantity"
-        android:inputType="number" />
+        android:inputType="number"
+        android:layout_marginTop="8dp" />
 
+    <!-- Price -->
     <EditText
-        android:id="@+id/totalPriceEditText"
+        android:id="@+id/priceEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Total Price"
-        android:inputType="numberDecimal" />
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="8dp" />
 
+    <!-- Additional (Optional) -->
+    <EditText
+        android:id="@+id/additionalEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Additional (Optional)"
+        android:layout_marginTop="8dp" />
+
+    <!-- Payment TextView -->
+    <TextView
+        android:id="@+id/paymentTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You Need To Pay 0 BDT For This Order"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:layout_marginTop="16dp" />
+
+    <!-- Place Order Button -->
     <Button
         android:id="@+id/placeOrderButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/pink"
-        android:text="Place Order" />
+        android:text="Place Order"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/pink" />
+
 </LinearLayout>
