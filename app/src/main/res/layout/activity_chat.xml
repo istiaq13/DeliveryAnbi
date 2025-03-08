@@ -39,11 +39,11 @@
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/pink"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Send"
             android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>
