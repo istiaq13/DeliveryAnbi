@@ -9,7 +9,6 @@
     android:padding="16dp"
     tools:context=".ChatActivity">
 
-
     <!-- RecyclerView to display chat messages -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
@@ -17,6 +16,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"
+
         tools:listitem="@layout/item_chat_message" />
 
     <!-- Bottom layout for sending messages -->
@@ -24,7 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:background="@color/white"
+        android:elevation="4dp">
 
         <!-- EditText for typing messages -->
         <EditText
@@ -35,7 +37,9 @@
             android:hint="Type a message..."
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:padding="8dp" />
+            android:padding="8dp"
+
+            android:textColor="@color/black" />
 
         <!-- Send Button -->
         <Button
@@ -47,6 +51,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:text="Send"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:elevation="4dp" />
     </LinearLayout>
 </LinearLayout>
