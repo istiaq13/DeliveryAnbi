@@ -34,10 +34,8 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val senderLayout: View = itemView.findViewById(R.id.senderLayout)
         private val senderMessage: TextView = itemView.findViewById(R.id.senderMessage)
-        private val senderName: TextView = itemView.findViewById(R.id.senderName)
         private val receiverLayout: View = itemView.findViewById(R.id.receiverLayout)
         private val receiverMessage: TextView = itemView.findViewById(R.id.receiverMessage)
-        private val receiverName: TextView = itemView.findViewById(R.id.receiverName)
 
         fun bind(message: ChatMessage) {
             if (message.senderId == currentUserId) {
@@ -45,13 +43,11 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
                 senderLayout.visibility = View.VISIBLE
                 receiverLayout.visibility = View.GONE
                 senderMessage.text = message.message
-                senderName.text = "You" // Or fetch the username from Firebase
             } else {
                 // Other user sent the message
                 senderLayout.visibility = View.GONE
                 receiverLayout.visibility = View.VISIBLE
                 receiverMessage.text = message.message
-                receiverName.text = "Sender Name" // Fetch the username from Firebase
             }
         }
     }
