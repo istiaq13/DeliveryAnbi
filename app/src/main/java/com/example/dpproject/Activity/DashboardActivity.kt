@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dpproject.R
 import com.example.dpproject.UserProfileActivity
 import com.example.dpproject.adapter.OrderAdapter
+import com.example.dpproject.adapter.OrderDetailsAdapter
 import com.example.dpproject.domain.Order
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -26,7 +27,9 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var orderRecyclerView: RecyclerView
+    private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
+    private lateinit var orderDetailsAdapter: OrderDetailsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +45,19 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
 
+        // Initialize RecyclerView for pending orders
         orderRecyclerView = findViewById(R.id.orderlistView)
         orderRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         orderAdapter = OrderAdapter()
         orderRecyclerView.adapter = orderAdapter
 
+        // Initialize RecyclerView for accepted orders
+        categoryRecyclerView = findViewById(R.id.categoryview)
+        categoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        orderDetailsAdapter = OrderDetailsAdapter()
+        categoryRecyclerView.adapter = orderDetailsAdapter
+
+        // Fetch and display user name
         val user = auth.currentUser
         user?.let {
             val userId = it.uid
@@ -67,19 +78,30 @@ class DashboardActivity : AppCompatActivity() {
             })
         }
 
+        // Fetch and display orders
         fetchOrders()
 
+        // Handle refresh button click
+        val refreshButton: TextView = findViewById(R.id.textView11)
+        refreshButton.setOnClickListener {
+            fetchOrders()
+            Toast.makeText(this, "Refreshed", Toast.LENGTH_SHORT).show()
+        }
+
+        // Handle logout button click
         val logoutButton: ImageView = findViewById(R.id.logout_button)
         logoutButton.setOnClickListener {
             logoutUser()
         }
 
+        // Handle filter_button click to open UserProfileActivity
         val filterButton: TextView = findViewById(R.id.filter_button)
         filterButton.setOnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java)
             startActivity(intent)
         }
 
+        // Handle placeOrderButton click
         val placeOrderButton: Button = findViewById(R.id.makeOrderButton)
         placeOrderButton.setOnClickListener {
             val intent = Intent(this, PlaceOrderActivity::class.java)
@@ -92,11 +114,20 @@ class DashboardActivity : AppCompatActivity() {
         ordersRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val orders = mutableListOf<Order>()
+                val acceptedOrders = mutableListOf<Order>()
                 for (orderSnapshot in snapshot.children) {
                     val order = orderSnapshot.getValue(Order::class.java)
-                    order?.let { orders.add(it) }
+                    order?.let {
+                        if (it.acceptedBy.isNotEmpty()) {
+                            acceptedOrders.add(it)
+                        } else {
+                            orders.add(it)
+                        }
+                    }
                 }
-                orderAdapter.submitList(orders)
+                // Update adapters
+                orderAdapter.submitList(orders.reversed())
+                orderDetailsAdapter.submitList(acceptedOrders.reversed())
             }
 
             override fun onCancelled(error: DatabaseError) {

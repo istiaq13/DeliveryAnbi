@@ -156,7 +156,6 @@
                     android:background="@drawable/gray_bg"
                     android:orientation="horizontal">
 
-                    <!-- Replaced Spinner with Button -->
                     <Button
                         android:id="@+id/makeOrderButton"
                         android:layout_width="match_parent"
@@ -218,6 +217,7 @@
                     android:id="@+id/orderlistView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="80dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -242,8 +242,8 @@
                 <ProgressBar
                     android:id="@+id/progressBarCategory"
                     style="?android:attr/progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="52dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

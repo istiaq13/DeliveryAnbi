@@ -79,7 +79,8 @@ class PlaceOrderActivity : AppCompatActivity() {
                 totalPrice = price,
                 status = "Pending",
                 time = "",
-                userId = userId
+                userId = userId,
+                location = selectedLocation
             )
 
             order.placeOrder()

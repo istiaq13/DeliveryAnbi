@@ -1,10 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.cardview.widget.CardView
     android:id="@+id/main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activity.OrderDetailsActivity">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="3dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Short Photo -->
+        <ImageView
+            android:id="@+id/shortPhoto"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/intro_pic" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/titleTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Title"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/shortPhoto"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/priceTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="BDT 0"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/pink"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/titleTxt" />
+
+        <!-- Time Icon -->
+        <ImageView
+            android:id="@+id/timeIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/time"
+            app:layout_constraintStart_toStartOf="@+id/titleTxt"
+            app:layout_constraintTop_toBottomOf="@+id/titleTxt" />
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/timeTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Time"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/timeIcon"
+            app:layout_constraintTop_toBottomOf="@+id/titleTxt" />
+
+        <!-- Reward Icon -->
+        <ImageView
+            android:id="@+id/rewardIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/favorite_white"
+            app:layout_constraintStart_toStartOf="@+id/titleTxt"
+            app:layout_constraintTop_toBottomOf="@+id/timeTxt" />
+
+        <!-- Reward -->
+        <TextView
+            android:id="@+id/rewardTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Reward"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/rewardIcon"
+            app:layout_constraintTop_toBottomOf="@+id/timeTxt" />
+
+        <!-- Quantity -->
+        <TextView
+            android:id="@+id/quantityTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Quantity: 1"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rewardTxt"
+            app:layout_constraintTop_toBottomOf="@+id/timeTxt"
+            android:background="@color/pink"/>
+
+        <!-- Location Icon -->
+        <ImageView
+            android:id="@+id/locationIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="8dp"
+            app:srcCompat="@drawable/location"
+            app:layout_constraintStart_toStartOf="@+id/titleTxt"
+            app:layout_constraintTop_toBottomOf="@+id/rewardTxt" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/locationTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Location"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/locationIcon"
+            app:layout_constraintTop_toBottomOf="@+id/rewardTxt" />
+
+        <!-- Accepted By [Name] -->
+        <TextView
+            android:id="@+id/acceptedByTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Accepted By: [Name]"
+            android:textColor="@color/blue_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/locationTxt" />
+
+        <!-- Ordered By [Name] -->
+        <TextView
+            android:id="@+id/orderedByTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="Ordered By: [Name]"
+            android:textColor="@color/blue_gray"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/acceptedByTxt" />
+
+        <!-- Chat Button -->
+        <Button
+            android:id="@+id/chatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Chat"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderedByTxt" />
+
+        <!-- Cancel Order Button -->
+        <Button
+            android:id="@+id/cancelOrderButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Cancel Order"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/chatButton"
+            app:layout_constraintTop_toBottomOf="@+id/orderedByTxt" />
+
+        <!-- Delivered Button -->
+        <Button
+            android:id="@+id/deliveredButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Delivered"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/cancelOrderButton"
+            app:layout_constraintTop_toBottomOf="@+id/orderedByTxt" />
+
+        <!-- Received Button -->
+        <Button
+            android:id="@+id/receivedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Received"
+            android:textSize="12sp"
+            android:padding="4dp"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/deliveredButton"
+            app:layout_constraintTop_toBottomOf="@+id/orderedByTxt" />
+
+        <!-- Accepted Sticker -->
+        <TextView
+            android:id="@+id/acceptedSticker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Accepted"
+            android:textColor="@color/blue_gray"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            app:layout_constraintStart_toStartOf="@+id/shortPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/shortPhoto" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
