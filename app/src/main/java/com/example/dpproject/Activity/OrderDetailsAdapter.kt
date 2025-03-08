@@ -1,6 +1,7 @@
 package com.example.dpproject.adapter
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dpproject.R
+import com.example.dpproject.Activity.ChatActivity
 import com.example.dpproject.domain.Order
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -48,6 +50,7 @@ class OrderDetailsAdapter : RecyclerView.Adapter<OrderDetailsAdapter.OrderDetail
         private val orderedByTxt: TextView = itemView.findViewById(R.id.orderedByTxt)
         private val deliveredButton: Button = itemView.findViewById(R.id.deliveredButton)
         private val receivedButton: Button = itemView.findViewById(R.id.receivedButton)
+        private val chatButton: Button = itemView.findViewById(R.id.chatButton)
 
         fun bind(order: Order) {
             titleTxt.text = order.foodName
@@ -82,6 +85,14 @@ class OrderDetailsAdapter : RecyclerView.Adapter<OrderDetailsAdapter.OrderDetail
             // Handle received button click
             receivedButton.setOnClickListener {
                 showDeleteConfirmationDialog(order.orderId)
+            }
+
+            // Handle chat button click
+            chatButton.setOnClickListener {
+                val intent = Intent(itemView.context, ChatActivity::class.java)
+                intent.putExtra("chatId", order.orderId) // Use orderId as chatId
+                intent.putExtra("receiverId", order.acceptedBy) // Receiver is the user who accepted the order
+                itemView.context.startActivity(intent)
             }
 
             // Disable buttons if order is completed
