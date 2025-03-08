@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class DashboardActivity : AppCompatActivity() {
-
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var orderRecyclerView: RecyclerView
@@ -43,13 +42,11 @@ class DashboardActivity : AppCompatActivity() {
             insets
         }
 
-        // Initialize RecyclerView
         orderRecyclerView = findViewById(R.id.orderlistView)
         orderRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         orderAdapter = OrderAdapter()
         orderRecyclerView.adapter = orderAdapter
 
-        // Fetch and display user name
         val user = auth.currentUser
         user?.let {
             val userId = it.uid
@@ -60,36 +57,29 @@ class DashboardActivity : AppCompatActivity() {
                     val userNameTextView: TextView = findViewById(R.id.textView9)
                     userNameTextView.text = username
 
-                    // Update filter_button with the first letter of the username
                     val filterButton: TextView = findViewById(R.id.filter_button)
                     if (username.isNotEmpty()) {
                         filterButton.text = username[0].toString().uppercase()
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle error
-                }
+                override fun onCancelled(error: DatabaseError) {}
             })
         }
 
-        // Fetch and display orders
         fetchOrders()
 
-        // Handle logout button click
         val logoutButton: ImageView = findViewById(R.id.logout_button)
         logoutButton.setOnClickListener {
             logoutUser()
         }
 
-        // Handle filter_button click to open UserProfileActivity
         val filterButton: TextView = findViewById(R.id.filter_button)
         filterButton.setOnClickListener {
             val intent = Intent(this, UserProfileActivity::class.java)
             startActivity(intent)
         }
 
-        // Handle placeOrderButton click
         val placeOrderButton: Button = findViewById(R.id.makeOrderButton)
         placeOrderButton.setOnClickListener {
             val intent = Intent(this, PlaceOrderActivity::class.java)

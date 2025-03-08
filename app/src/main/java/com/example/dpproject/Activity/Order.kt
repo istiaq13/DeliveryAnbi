@@ -7,23 +7,26 @@ import java.util.Locale
 
 class Order {
     var orderId: String = ""
+    var location: String = ""
     var foodName: String = ""
     var quantity: Int = 0
     var totalPrice: Double = 0.0
-    var status: String = "Pending" // Default status
-    var time: String = "" // Added time field
+    var status: String = "Pending"
+    var time: String = ""
+    var userId: String = ""
+    var acceptedBy: String = ""
 
-    // Default constructor required for Firebase
     constructor()
 
-    // Parameterized constructor
     constructor(
         orderId: String,
         foodName: String,
         quantity: Int,
         totalPrice: Double,
         status: String,
-        time: String
+        time: String,
+        userId: String,
+        acceptedBy: String = ""
     ) {
         this.orderId = orderId
         this.foodName = foodName
@@ -31,21 +34,16 @@ class Order {
         this.totalPrice = totalPrice
         this.status = status
         this.time = time
+        this.userId = userId
+        this.acceptedBy = acceptedBy
     }
 
-    // Function to place an order
     fun placeOrder() {
         val database = FirebaseDatabase.getInstance()
         val ordersRef = database.getReference("orders")
-
-        // Generate a unique order ID
         val newOrderRef = ordersRef.push()
         this.orderId = newOrderRef.key ?: ""
-
-        // Set the current time
         this.time = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date())
-
-        // Save the order to Firebase
         newOrderRef.setValue(this)
     }
 }

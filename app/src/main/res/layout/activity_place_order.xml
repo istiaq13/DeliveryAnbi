@@ -19,7 +19,7 @@
 
     <!-- Item Name -->
     <EditText
-        android:id="@+id/foodNameEditText"
+        android:id="@+id/foodNameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Item Name" />
