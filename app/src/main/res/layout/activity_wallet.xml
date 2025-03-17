@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/main"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Activity.WalletActivity">
+
+    <!-- Close Button -->
+    <Button
+        android:id="@+id/closeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/pink"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- User Greeting -->
+    <TextView
+        android:id="@+id/userGreetingTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hey, User"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Balance -->
+    <TextView
+        android:id="@+id/balanceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Balance: BDT 0"
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userGreetingTextView" />
+
+    <!-- Reward -->
+    <TextView
+        android:id="@+id/rewardTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reward: BDT 0"
+        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceTextView" />
+
+    <!-- Withdraw Button -->
+    <Button
+        android:id="@+id/withdrawButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Withdraw"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/pink"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addMoneyButton"
+        app:layout_constraintTop_toBottomOf="@+id/rewardTextView" />
+
+    <!-- Add Money Button -->
+    <Button
+        android:id="@+id/addMoneyButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add Money"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:backgroundTint="@color/pink"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/withdrawButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rewardTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

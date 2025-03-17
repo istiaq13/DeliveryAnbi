@@ -108,7 +108,7 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/cart_button"
+                    android:id="@+id/wallet_button"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginStart="6dp"
