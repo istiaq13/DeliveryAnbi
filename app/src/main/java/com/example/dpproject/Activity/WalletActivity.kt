@@ -1,10 +1,8 @@
 package com.example.dpproject.Activity
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
+import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,12 +19,13 @@ class WalletActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
     private lateinit var balanceTextView: TextView
-    private lateinit var backButton: ImageView
+    private lateinit var addMoneyButton: Button
+    private lateinit var withdrawButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_wallet) // Ensure you have a layout file named `activity_wallet.xml`
+        setContentView(R.layout.activity_wallet)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -38,15 +37,23 @@ class WalletActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
 
         // Initialize views
-        balanceTextView = findViewById(R.id.balanceTextView) // Ensure this ID exists in your layout
-        backButton = findViewById(R.id.backButton) // Ensure this ID exists in your layout
+        balanceTextView = findViewById(R.id.balanceTextView)
+        addMoneyButton = findViewById(R.id.addMoneyButton)
+        withdrawButton = findViewById(R.id.withdrawButton)
 
         // Fetch and display wallet balance
         fetchWalletBalance()
 
-        // Handle back button click
-        backButton.setOnClickListener {
-            finish() // Close the activity and return to the previous screen
+        // Handle add money button click
+        addMoneyButton.setOnClickListener {
+            // Open a dialog or new activity to add money
+            showAddMoneyDialog()
+        }
+
+        // Handle withdraw button click
+        withdrawButton.setOnClickListener {
+            // Open a dialog or new activity to withdraw money
+            showWithdrawDialog()
         }
     }
 
@@ -58,18 +65,67 @@ class WalletActivity : AppCompatActivity() {
             userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        // Assuming the wallet balance is stored under a "balance" field in the user's data
                         val balance = snapshot.child("balance").getValue(Double::class.java) ?: 0.0
                         balanceTextView.text = "Balance: BDT $balance"
                     } else {
-                        Toast.makeText(this@WalletActivity, "User data not found", Toast.LENGTH_SHORT).show()
+                        balanceTextView.text = "Balance: BDT 0.0"
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@WalletActivity, "Failed to fetch wallet balance", Toast.LENGTH_SHORT).show()
+                    balanceTextView.text = "Failed to fetch balance"
                 }
             })
+        }
+    }
+
+    private fun showAddMoneyDialog() {
+        // Implement a dialog to add money
+        val dialog = AddMoneyDialogFragment()
+        dialog.show(supportFragmentManager, "AddMoneyDialog")
+    }
+
+    private fun showWithdrawDialog() {
+        // Implement a dialog to withdraw money
+        val dialog = WithdrawDialogFragment()
+        dialog.show(supportFragmentManager, "WithdrawDialog")
+    }
+
+    fun addMoney(amount: Double) {
+        val user = auth.currentUser
+        user?.let {
+            val userId = it.uid
+            val userRef = database.getReference("users").child(userId)
+            userRef.child("balance").get().addOnSuccessListener { snapshot ->
+                val currentBalance = snapshot.getValue(Double::class.java) ?: 0.0
+                val newBalance = currentBalance + amount
+                userRef.child("balance").setValue(newBalance).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        fetchWalletBalance() // Refresh the balance
+                    }
+                }
+            }
+        }
+    }
+
+    fun withdrawMoney(amount: Double) {
+        val user = auth.currentUser
+        user?.let {
+            val userId = it.uid
+            val userRef = database.getReference("users").child(userId)
+            userRef.child("balance").get().addOnSuccessListener { snapshot ->
+                val currentBalance = snapshot.getValue(Double::class.java) ?: 0.0
+                if (currentBalance >= amount) {
+                    val newBalance = currentBalance - amount
+                    userRef.child("balance").setValue(newBalance).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            fetchWalletBalance() // Refresh the balance
+                        }
+                    }
+                } else {
+                    // Show an error message (e.g., "Insufficient balance")
+                }
+            }
         }
     }
 }
