@@ -154,7 +154,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:text="Filter Location"
+                        android:text="Food Availability"
                         android:textColor="@color/white"
                         android:textSize="14sp"
                         android:textStyle="bold"
