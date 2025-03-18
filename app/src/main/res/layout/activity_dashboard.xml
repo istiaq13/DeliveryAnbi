@@ -46,15 +46,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
                 <!-- Wallet Button -->
-                <ImageView
-                    android:id="@+id/walletButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/gray_bg"
-                    android:padding="12dp"
-                    android:onClick="onWalletButtonClick"
-                    app:srcCompat="@drawable/wallet_icon" /><!-- Ensure this drawable exists -->
+
 
 
                 <!-- Logout Button -->
@@ -127,13 +119,14 @@
 
                 <!-- Basket Button -->
                 <ImageView
-                    android:id="@+id/basketButton"
+                    android:id="@+id/walletButton"
+                    android:onClick="onWalletButtonClick"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginStart="6dp"
                     android:background="@drawable/gray_bg"
                     android:padding="12dp"
-                    app:srcCompat="@drawable/basket" />
+                    app:srcCompat="@drawable/wallet_icon" /><!-- Ensure this drawable exists -->
             </LinearLayout>
 
             <!-- Location and Make Order Buttons -->
