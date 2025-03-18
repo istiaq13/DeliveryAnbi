@@ -2,6 +2,7 @@ package com.example.dpproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -142,5 +143,10 @@ class DashboardActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
+    }
+
+    fun onWalletButtonClick(view: View) {
+        val intent = Intent(this, WalletActivity::class.java)
+        startActivity(intent)
     }
 }
