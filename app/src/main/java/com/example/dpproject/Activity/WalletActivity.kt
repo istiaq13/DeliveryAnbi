@@ -3,6 +3,7 @@ package com.example.dpproject.Activity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -74,6 +75,7 @@ class WalletActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {
                     balanceTextView.text = "Failed to fetch balance"
+                    Toast.makeText(this@WalletActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
             })
         }
@@ -92,6 +94,11 @@ class WalletActivity : AppCompatActivity() {
     }
 
     fun addMoney(amount: Double) {
+        if (amount <= 0) {
+            Toast.makeText(this, "Invalid amount. Please enter a positive value.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val user = auth.currentUser
         user?.let {
             val userId = it.uid
@@ -102,13 +109,25 @@ class WalletActivity : AppCompatActivity() {
                 userRef.child("balance").setValue(newBalance).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         fetchWalletBalance() // Refresh the balance
+                        Toast.makeText(this, "BDT $amount added successfully!", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Failed to add money: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(this, "Error fetching balance: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
+        } ?: run {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
         }
     }
 
     fun withdrawMoney(amount: Double) {
+        if (amount <= 0) {
+            Toast.makeText(this, "Invalid amount. Please enter a positive value.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val user = auth.currentUser
         user?.let {
             val userId = it.uid
@@ -120,12 +139,19 @@ class WalletActivity : AppCompatActivity() {
                     userRef.child("balance").setValue(newBalance).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             fetchWalletBalance() // Refresh the balance
+                            Toast.makeText(this, "BDT $amount withdrawn successfully!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Failed to withdraw money: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
-                    // Show an error message (e.g., "Insufficient balance")
+                    Toast.makeText(this, "Insufficient balance.", Toast.LENGTH_SHORT).show()
                 }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(this, "Error fetching balance: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
+        } ?: run {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show()
         }
     }
 }
