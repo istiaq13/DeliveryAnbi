@@ -130,7 +130,8 @@ class PlaceOrderActivity : AppCompatActivity() {
             override fun onResults(results: Bundle?) {
                 val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (!matches.isNullOrEmpty()) {
-                    foodNameEditText.setText(matches[0])
+                    val spokenText = matches[0].toLowerCase(Locale.ROOT)
+                    processVoiceCommand(spokenText)
                 }
             }
 
@@ -149,11 +150,31 @@ class PlaceOrderActivity : AppCompatActivity() {
         }
     }
 
+    private fun processVoiceCommand(spokenText: String) {
+        when {
+            spokenText.startsWith("item") -> {
+                val itemName = spokenText.removePrefix("item").trim()
+                foodNameEditText.setText(itemName)
+            }
+            spokenText.startsWith("quantity") -> {
+                val quantity = spokenText.removePrefix("quantity").trim()
+                quantityEditText.setText(quantity)
+            }
+            spokenText.startsWith("price") -> {
+                val price = spokenText.removePrefix("price").trim()
+                priceEditText.setText(price)
+            }
+            else -> {
+                Toast.makeText(this, "Command not recognized", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun startSpeechRecognition() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak the food name")
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak your command (e.g., item Pizza, quantity 2, price 100)")
         speechRecognizer.startListening(intent)
     }
 
