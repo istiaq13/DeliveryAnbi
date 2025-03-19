@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dpproject.R
 import com.example.dpproject.domain.Order
@@ -44,6 +45,7 @@ class AcceptedOrdersAdapter : RecyclerView.Adapter<AcceptedOrdersAdapter.Accepte
         private val orderedByTxt: TextView = itemView.findViewById(R.id.orderedByTxt)
         private val deliveredButton: Button = itemView.findViewById(R.id.deliveredButton)
         private val receivedButton: Button = itemView.findViewById(R.id.receivedButton)
+        private val cancelButton: Button = itemView.findViewById(R.id.cancelButton)
 
         fun bind(order: Order) {
             titleTxt.text = order.foodName
@@ -81,21 +83,99 @@ class AcceptedOrdersAdapter : RecyclerView.Adapter<AcceptedOrdersAdapter.Accepte
 
             // Handle button visibility
             if (order.acceptedBy == currentUserId) {
+                // User who accepted the order
                 deliveredButton.visibility = View.VISIBLE
                 receivedButton.visibility = View.GONE
+                cancelButton.visibility = View.VISIBLE
             } else if (order.userId == currentUserId) {
+                // User who created the order
                 deliveredButton.visibility = View.GONE
                 receivedButton.visibility = View.VISIBLE
+                cancelButton.visibility = View.GONE
             }
 
+            // Handle delivered button click
             deliveredButton.setOnClickListener {
-                receivedButton.visibility = View.VISIBLE
+                updateOrderStatus(order.orderId, "Delivered")
                 deliveredButton.isEnabled = false
             }
 
+            // Handle received button click
             receivedButton.setOnClickListener {
-                deliveredButton.isEnabled = false
+                // Remove the order from active orders
+                removeOrderFromActiveOrders(order.orderId)
+
+                // Send a message to the delivery man
+                sendMessageToDeliveryMan(order.acceptedBy, "Order ${order.orderId} has been completed.")
+
+                // Disable the button to prevent multiple clicks
                 receivedButton.isEnabled = false
+            }
+
+            // Handle cancel button click
+            cancelButton.setOnClickListener {
+                // Move the order back to "all orders" list
+                cancelOrder(order.orderId)
+            }
+        }
+
+        private fun removeOrderFromActiveOrders(orderId: String) {
+            val database = FirebaseDatabase.getInstance()
+            val orderRef = database.getReference("orders").child(orderId)
+            orderRef.removeValue().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Remove the order from the adapter's list
+                    orders.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                    Toast.makeText(itemView.context, "Order removed successfully.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(itemView.context, "Failed to remove order: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        private fun sendMessageToDeliveryMan(deliveryManId: String, message: String) {
+            val database = FirebaseDatabase.getInstance()
+            val messagesRef = database.getReference("messages").child(deliveryManId)
+            val messageData = mapOf(
+                "orderId" to "N/A", // Replace with actual order ID if needed
+                "message" to message,
+                "timestamp" to System.currentTimeMillis()
+            )
+            messagesRef.push().setValue(messageData).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(itemView.context, "Message sent to delivery man.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(itemView.context, "Failed to send message: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        private fun updateOrderStatus(orderId: String, status: String) {
+            val database = FirebaseDatabase.getInstance()
+            val orderRef = database.getReference("orders").child(orderId)
+            orderRef.child("status").setValue(status).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(itemView.context, "Order status updated to $status.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(itemView.context, "Failed to update order status: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        private fun cancelOrder(orderId: String) {
+            val database = FirebaseDatabase.getInstance()
+            val orderRef = database.getReference("orders").child(orderId)
+            orderRef.child("acceptedBy").setValue("")
+            orderRef.child("status").setValue("Pending").addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Remove the order from the adapter's list
+                    orders.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                    Toast.makeText(itemView.context, "Order canceled and moved back to all orders.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(itemView.context, "Failed to cancel order: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
