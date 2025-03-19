@@ -1,15 +1,21 @@
 package com.example.dpproject.Activity
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.*
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import com.example.dpproject.R
 import com.example.dpproject.domain.Order
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import java.text.SimpleDateFormat
 import java.util.*
 
 class PlaceOrderActivity : AppCompatActivity() {
@@ -21,8 +27,12 @@ class PlaceOrderActivity : AppCompatActivity() {
     private lateinit var paymentTextView: TextView
     private lateinit var placeOrderButton: Button
     private lateinit var cancelButton: Button
+    private lateinit var voiceActivationButton: Button
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
+    private lateinit var speechRecognizer: SpeechRecognizer
+
+    private val REQUEST_RECORD_AUDIO_PERMISSION = 200
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +49,7 @@ class PlaceOrderActivity : AppCompatActivity() {
         paymentTextView = findViewById(R.id.paymentTextView)
         placeOrderButton = findViewById(R.id.placeOrderButton)
         cancelButton = findViewById(R.id.cancelButton)
+        voiceActivationButton = findViewById(R.id.voiceActivationButton)
 
         val locations = arrayOf("Male Hall Of Residence", "Female Hall Of Residence")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, locations)
@@ -88,10 +99,72 @@ class PlaceOrderActivity : AppCompatActivity() {
             finish()
         }
 
+        // Check microphone permission
+        checkMicrophonePermission()
+
+        // Initialize SpeechRecognizer
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
+        speechRecognizer.setRecognitionListener(object : android.speech.RecognitionListener {
+            override fun onReadyForSpeech(params: Bundle?) {}
+            override fun onBeginningOfSpeech() {}
+            override fun onRmsChanged(rmsdB: Float) {}
+            override fun onBufferReceived(buffer: ByteArray?) {}
+            override fun onEndOfSpeech() {}
+
+            override fun onError(error: Int) {
+                val errorMessage = when (error) {
+                    SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
+                    SpeechRecognizer.ERROR_CLIENT -> "Client side error"
+                    SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
+                    SpeechRecognizer.ERROR_NETWORK -> "Network error"
+                    SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
+                    SpeechRecognizer.ERROR_NO_MATCH -> "No speech recognized"
+                    SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
+                    SpeechRecognizer.ERROR_SERVER -> "Server error"
+                    SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
+                    else -> "Unknown error"
+                }
+                Toast.makeText(this@PlaceOrderActivity, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResults(results: Bundle?) {
+                val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (!matches.isNullOrEmpty()) {
+                    foodNameEditText.setText(matches[0])
+                }
+            }
+
+            override fun onPartialResults(partialResults: Bundle?) {}
+            override fun onEvent(eventType: Int, params: Bundle?) {}
+        })
+
+        voiceActivationButton.setOnClickListener {
+            startSpeechRecognition()
+        }
+
         // Auto-fill the form if a food name is passed via intent
         val foodName = intent.getStringExtra("foodName")
         foodName?.let {
             foodNameEditText.setText(it)
         }
+    }
+
+    private fun startSpeechRecognition() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak the food name")
+        speechRecognizer.startListening(intent)
+    }
+
+    private fun checkMicrophonePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_RECORD_AUDIO_PERMISSION)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        speechRecognizer.destroy()
     }
 }

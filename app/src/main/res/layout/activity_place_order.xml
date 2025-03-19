@@ -24,11 +24,12 @@
         android:layout_height="wrap_content"
         android:hint="Item Name" />
 
+    <!-- Voice Activation Button -->
     <Button
-        android:id="@+id/chooseImageButton"
+        android:id="@+id/voiceActivationButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Image"
+        android:text="Speak to Enter Food Name"
         android:textColor="@color/black"
         android:layout_marginTop="8dp" />
 
