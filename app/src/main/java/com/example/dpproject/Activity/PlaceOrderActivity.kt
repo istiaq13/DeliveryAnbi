@@ -87,5 +87,11 @@ class PlaceOrderActivity : AppCompatActivity() {
             Toast.makeText(this, "Order placed successfully", Toast.LENGTH_SHORT).show()
             finish()
         }
+
+        // Auto-fill the form if a food name is passed via intent
+        val foodName = intent.getStringExtra("foodName")
+        foodName?.let {
+            foodNameEditText.setText(it)
+        }
     }
 }

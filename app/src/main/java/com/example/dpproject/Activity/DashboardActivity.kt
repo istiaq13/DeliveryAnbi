@@ -1,7 +1,9 @@
 package com.example.dpproject.Activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -18,6 +20,7 @@ import com.example.dpproject.UserProfileActivity
 import com.example.dpproject.adapter.OrderAdapter
 import com.example.dpproject.adapter.OrderDetailsAdapter
 import com.example.dpproject.domain.Order
+import com.example.dpproject.utils.OrderHistoryAnalyzer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +34,9 @@ class DashboardActivity : AppCompatActivity() {
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var orderAdapter: OrderAdapter
     private lateinit var orderDetailsAdapter: OrderDetailsAdapter
+    private lateinit var orderHistoryAnalyzer: OrderHistoryAnalyzer
+    private val handler = Handler()
+    private val delay = 5 * 60 * 1000L // 5 minutes in milliseconds
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +45,7 @@ class DashboardActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
+        orderHistoryAnalyzer = OrderHistoryAnalyzer()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -107,6 +114,50 @@ class DashboardActivity : AppCompatActivity() {
         placeOrderButton.setOnClickListener {
             val intent = Intent(this, PlaceOrderActivity::class.java)
             startActivity(intent)
+        }
+
+        // Show food recommendation dialog
+        showFoodRecommendationDialog()
+    }
+
+    private fun showFoodRecommendationDialog() {
+        orderHistoryAnalyzer.getMostFrequentFood { mostFrequentFood ->
+            orderHistoryAnalyzer.getLastOrderedFood { lastOrderedFood ->
+                val recommendedFood = mostFrequentFood ?: lastOrderedFood
+                recommendedFood?.let { foodName ->
+                    val dialogView = layoutInflater.inflate(R.layout.dialog_food_recommendation, null)
+                    val dialog = AlertDialog.Builder(this)
+                        .setView(dialogView)
+                        .setCancelable(false)
+                        .create()
+
+                    val messageTextView = dialogView.findViewById<TextView>(R.id.messageTextView)
+                    messageTextView.text = "Want to Order the $foodName Again?"
+
+                    val askMeLaterButton = dialogView.findViewById<Button>(R.id.askMeLaterButton)
+                    askMeLaterButton.setOnClickListener {
+                        dialog.dismiss()
+                    }
+
+                    val orderAgainButton = dialogView.findViewById<Button>(R.id.orderAgainButton)
+                    orderAgainButton.setOnClickListener {
+                        val intent = Intent(this, PlaceOrderActivity::class.java)
+                        intent.putExtra("foodName", foodName)
+                        startActivity(intent)
+                        dialog.dismiss()
+                    }
+
+                    val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
+                    cancelButton.setOnClickListener {
+                        dialog.dismiss()
+                        handler.postDelayed({
+                            showFoodRecommendationDialog()
+                        }, delay)
+                    }
+
+                    dialog.show()
+                }
+            }
         }
     }
 
